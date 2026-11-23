@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock-Paper-Scissors</title>
+</head>
+<style>
+    body{
+        background-color: black;
+        color: white;
+        text-align: center;
+    }
+    .para{
+        color: white;
+        font-size: 30px;
+        font-weight: bold;
+        font-family: Arial;
+        text-align: center;
+    }
+    .rock{
+       
+            background-color: transparent;
+            border: 3px solid white;
+            width: 120px;
+            height: 120px;
+            border-radius: 60px;
+            margin-right: 10px;
+            cursor: pointer;
+            font-size: 45px;
+    }
+    .move-icon {
+     height: 50px;
+    width: 50px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+    .js-result {
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: Arial;
+    text-align: center;
+    margin-top: 40px;
+}
+.js-moves {
+    color: white;
+    font-size: 20px;
+    font-family: Arial;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 25px;
+}
+.js-score {
+    color: white;
+    font-size: 20px;
+    font-family: Arial;
+    text-align: center;
+    margin-top: 40px;
+}
+.reset-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 25px auto;
+}
+   
+
+   
+
+</style>
+<body>
+
+    <p class="para">Rock-Paper-Scissors</p>
+
+    <button onclick="playGame('rock')" class="rock" >
+        <img src="rock-emoji.png" class="move-icon">
+    </button>
+    <button onclick="playGame('paper')" class="rock">
+        <img src="paper-emoji.png" class="move-icon">
+    </button>
+    <button onclick="playGame('scissors')" class="rock">
+        <img src="scissors-emoji.png" class="move-icon">
+    </button>
+   
+    <p class="js-result"> </p>
+    <p class="js-moves"></p>
+    <p class="js-score"> </p>
+
+    <script>
+    let score = JSON.parse(localStorage.getItem("score")) || {
+        wins: 0,
+        losses: 0,
+        ties: 0
+    };
+
+    // Display score when the page loads
+    const displayScore = () => {
+        document.querySelector(".js-score").innerHTML =
+            "Wins: " + score.wins +
+            ", Losses: " + score.losses +
+            ", Ties: " + score.ties;
+    };
+
+    displayScore();
+
+    const choices = ["rock", "paper", "scissors"];
+
+    const randomly = () => {
+        return choices[Math.floor(Math.random() * choices.length)];
+    };
+
+    const playGame = (userChoice) => {
+
+        let computerChoice = randomly();
+
+        let result = "";
+
+        if (userChoice === computerChoice) {
+            result = "Draw!";
+            score.ties++;
+        }
+        else if (
+            (userChoice === "rock" && computerChoice === "scissors") ||
+            (userChoice === "paper" && computerChoice === "rock") ||
+            (userChoice === "scissors" && computerChoice === "paper")
+        ) {
+            result = "You win!";
+            score.wins++;
+        }
+        else {
+            result = "You lose!";
+            score.losses++;
+        }
+
+        // Save updated score
+        localStorage.setItem("score", JSON.stringify(score));
+
+        // Display result
+        document.querySelector(".js-result").innerHTML = result;
+
+        // Display player and computer moves
+        document.querySelector(".js-moves").innerHTML =
+            "You: " +
+            `<img src="${userChoice}-emoji.png" class="move-icon">` +
+            `<img src="${computerChoice}-emoji.png" class="move-icon">` +
+            ": Computer";
+
+        // Update score on webpage
+        displayScore();
+    };
+
+    // Reset score
+    const reset = () => {
+
+        score.wins = 0;
+        score.losses = 0;
+        score.ties = 0;
+
+        localStorage.setItem("score", JSON.stringify(score));
+
+        displayScore();
+
+        document.querySelector(".js-result").innerHTML = "";
+        document.querySelector(".js-moves").innerHTML = "";
+    };
+
+</script>
+     <button onclick="reset()" class="reset-button">
+        Reset Score
+    </button>
+
+</body>
+</html>
+ 
