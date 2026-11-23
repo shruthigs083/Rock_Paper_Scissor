@@ -5,7 +5,7 @@ An interactive Rock-Paper-Scissors game built using HTML, CSS, and JavaScript, f
 
 ## 📸 Preview
 
-![Rock Paper Scissors](./screenshot(215).png)
+![Rock Paper Scissors](./game.png)
 
 ## 🛠️ Technologies Used
 - HTML
